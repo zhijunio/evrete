@@ -7,9 +7,8 @@ import org.evrete.classes.TypeB;
 import org.evrete.classes.TypeC;
 import org.evrete.classes.TypeD;
 import org.evrete.helper.RhsAssert;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -27,24 +26,19 @@ import static org.evrete.runtime.MemoryInspectionUtils.*;
 
 @SuppressWarnings({"resource", "ExtractMethodRecommender"})
 class HotDeploymentStatefulTests {
-    private static KnowledgeService service;
+    private KnowledgeService service;
     private StatefulSession session;
 
-    @BeforeAll
-    static void setUpClass() {
-        service = new KnowledgeService();
-    }
-
-    @AfterAll
-    static void shutDownClass() {
-        service.shutdown();
-    }
-
     @BeforeEach
-    void init() {
+    void setUp() {
+        service = new KnowledgeService();
         session = service.newStatefulSession();
     }
 
+    @AfterEach
+    void shutDown() {
+        service.shutdown();
+    }
     @ParameterizedTest
     @EnumSource(ActivationMode.class)
     void plainTest0(ActivationMode mode) {

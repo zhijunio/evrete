@@ -7,9 +7,8 @@ import org.evrete.classes.TypeB;
 import org.evrete.classes.TypeC;
 import org.evrete.classes.TypeD;
 import org.evrete.helper.RhsAssert;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -21,24 +20,19 @@ import java.util.function.Predicate;
 import static org.evrete.api.FactBuilder.fact;
 
 class HotDeploymentStatelessTests {
-    private static KnowledgeService service;
+    private KnowledgeService service;
     private StatelessSession session;
 
-    @BeforeAll
-    static void setUpClass() {
-        service = new KnowledgeService();
-    }
-
-    @AfterAll
-    static void shutDownClass() {
-        service.shutdown();
-    }
-
     @BeforeEach
-    void init() {
+    void setUp() {
+        service = new KnowledgeService();
         session = service.newStatelessSession();
     }
 
+    @AfterEach
+    void shutDown() {
+        service.shutdown();
+    }
     @ParameterizedTest
     @EnumSource(ActivationMode.class)
     void plainTest0(ActivationMode mode) {
