@@ -27,12 +27,3 @@ benchmark*.csv
 XLocalDev*.*
 *tests.jar
 
-
-# Ignore Gradle project-specific cache directory
-.gradle
-
-# Ignore Gradle build output directory
-build
-
-# Copied sources
-src-lts/
