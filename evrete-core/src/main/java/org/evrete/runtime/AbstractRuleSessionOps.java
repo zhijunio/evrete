@@ -128,8 +128,9 @@ public abstract class AbstractRuleSessionOps<S extends RuleSession<S>> extends A
         if (existing == null) {
             LOGGER.warning(() -> "Fact not found, UPDATE operation skipped for: " + newValue);
         } else {
-            // Check if the fact is of the right type
-            //TODO something is wrong here. Rewrite. The checks below will never fail
+            // Defensive check: caller may pass a fact whose type doesn't
+            // match the expected Java class (e.g. update(handle, wrongType)), this
+            // guard prevents silent corruption of the type memory.
             Class<?> expectedFactClass = activeType.getValue().getJavaClass();
             Class<?> argClass = newValue.getClass();
             if (expectedFactClass.isAssignableFrom(argClass)) {
