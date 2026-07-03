@@ -53,7 +53,7 @@ public class LongKeyMap<T> implements Iterable<T> {
 
 
     private int hash(long key) {
-        return Integer.hashCode((int)key) & (table.length - 1);
+        return Long.hashCode(key) & (table.length - 1);
     }
 
     public T put(long key, T value) {
